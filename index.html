@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rant Buddy — Just Talk. We'll Listen.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --deep: #03050f;
+    --navy: #07102a;
+    --blue1: #0d1f4a;
+    --blue2: #112266;
+    --indigo: #1a2f8a;
+    --violet: #2a1a6e;
+    --purple: #3d1fa0;
+    --glow: #4a6cf7;
+    --glowsoft: rgba(74,108,247,0.15);
+    --heart: #f5b8a0;
+    --heartglow: rgba(245,184,160,0.3);
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --faint: rgba(232,234,246,0.06);
+    --border: rgba(74,108,247,0.2);
+    --r: 'Cormorant Garamond', serif;
+    --s: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--text);
+    font-family: var(--s);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(3,5,15,0.95), transparent);
+    backdrop-filter: blur(4px);
+  }
+  .logo {
+    font-family: var(--r);
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .logo em { font-style: italic; color: var(--heart); }
+  nav a.btn-nav {
+    font-family: var(--s);
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 9px 22px;
+    border-radius: 40px;
+    transition: all 0.3s;
+  }
+  nav a.btn-nav:hover {
+    border-color: var(--glow);
+    background: var(--glowsoft);
+    color: #fff;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 6vw 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .orb1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(42,26,110,0.6) 0%, transparent 70%);
+    top: -100px; left: -100px;
+    animation: float1 12s ease-in-out infinite;
+  }
+  .orb2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(74,108,247,0.2) 0%, transparent 70%);
+    bottom: 0; right: -80px;
+    animation: float2 15s ease-in-out infinite;
+  }
+  .orb3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(245,184,160,0.1) 0%, transparent 70%);
+    top: 40%; left: 50%;
+    transform: translateX(-50%);
+    animation: float3 18s ease-in-out infinite;
+  }
+  @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
+  @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-40px)} }
+  @keyframes float3 { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-20px)} }
+
+  .hero-eyebrow {
+    font-family: var(--s);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--glow);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-headline {
+    font-family: var(--r);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    max-width: 780px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--heart);
+  }
+  .hero-sub {
+    margin-top: 24px;
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-cta {
+    margin-top: 44px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--glow), var(--purple));
+    color: #fff;
+    font-family: var(--s);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 36px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 0 40px rgba(74,108,247,0.25);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 50px rgba(74,108,247,0.4);
+  }
+  .btn-ghost {
+    color: var(--text);
+    font-family: var(--s);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 36px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.3s;
+    background: transparent;
+  }
+  .btn-ghost:hover {
+    border-color: rgba(245,184,160,0.5);
+    color: var(--heart);
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    animation: fadeIn 1s 1.4s forwards;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--glow), transparent);
+    animation: scrollAnim 2s ease-in-out infinite;
+  }
+  @keyframes scrollAnim { 0%,100%{opacity:0.3;transform:scaleY(0.7)} 50%{opacity:1;transform:scaleY(1)} }
+  .scroll-text { font-size: 0.68rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 0.7; }
+  }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 100px 6vw; }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--glow);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--r);
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 300;
+    line-height: 1.2;
+    max-width: 600px;
+  }
+  .section-title em { font-style: italic; color: var(--heart); }
+
+  /* ─── PROBLEM ─── */
+  #problem {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--deep) 60%);
+    position: relative;
+  }
+  #problem::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+  }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    margin-top: 60px;
+  }
+  .problem-left { }
+  .problem-intro {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.9;
+    margin-top: 24px;
+    max-width: 440px;
+  }
+  .pain-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .pain-card {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    background: var(--faint);
+    transition: border-color 0.3s, background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pain-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--glow), var(--purple));
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .pain-card:hover { border-color: rgba(74,108,247,0.4); background: rgba(74,108,247,0.05); }
+  .pain-card:hover::before { opacity: 1; }
+  .pain-title {
+    font-family: var(--r);
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+  .pain-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+  /* ─── SOLUTION ─── */
+  #solution {
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .solution-quote {
+    font-family: var(--r);
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 700px;
+    margin: 40px auto 0;
+    color: var(--text);
+    opacity: 0.9;
+  }
+  .solution-quote span {
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--heart);
+    vertical-align: middle;
+    margin: 0 14px;
+  }
+  .solution-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-top: 64px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .sol-card {
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 24px;
+    background: var(--faint);
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .sol-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(74,108,247,0.5);
+  }
+  .sol-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--blue1), var(--violet));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 20px;
+  }
+  .sol-card h3 {
+    font-family: var(--r);
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .sol-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+
+  /* ─── HOW IT WORKS ─── */
+  #how {
+    background: linear-gradient(180deg, var(--deep) 0%, var(--navy) 100%);
+    position: relative;
+  }
+  #how::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+  }
+  .how-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+  }
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .step {
+    display: flex;
+    gap: 24px;
+    position: relative;
+    padding-bottom: 36px;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .step-num {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--r);
+    font-size: 1rem;
+    color: var(--glow);
+    background: rgba(74,108,247,0.08);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step-connector {
+    flex: 1;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--border), transparent);
+    margin-top: 4px;
+  }
+  .step:last-child .step-connector { display: none; }
+  .step-content { padding-top: 10px; }
+  .step-content h3 {
+    font-family: var(--r);
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+  .step-content p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+  .how-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .phone-mock {
+    width: 260px;
+    background: linear-gradient(160deg, var(--blue1), var(--violet));
+    border-radius: 36px;
+    padding: 28px 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 60px rgba(74,108,247,0.15);
+    position: relative;
+  }
+  .phone-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .phone-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--glow), var(--heart));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .phone-name { font-size: 0.8rem; font-weight: 400; }
+  .phone-status { font-size: 0.68rem; color: rgba(255,255,255,0.5); }
+  .chat-bubble {
+    border-radius: 16px 16px 16px 4px;
+    background: rgba(255,255,255,0.08);
+    padding: 12px 16px;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .chat-bubble.right {
+    border-radius: 16px 16px 4px 16px;
+    background: linear-gradient(135deg, rgba(74,108,247,0.3), rgba(61,31,160,0.3));
+    margin-left: 20px;
+    text-align: right;
+    border-color: rgba(74,108,247,0.2);
+  }
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 16px 16px 16px 4px;
+    width: fit-content;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    animation: typingAnim 1.2s ease-in-out infinite;
+  }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingAnim { 0%,80%,100%{opacity:0.3;transform:scale(0.9)} 40%{opacity:1;transform:scale(1)} }
+
+  /* ─── TRUST ─── */
+  #trust { text-align: center; }
+  .trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .trust-badge {
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    background: var(--faint);
+    transition: border-color 0.3s;
+  }
+  .trust-badge:hover { border-color: rgba(245,184,160,0.4); }
+  .trust-badge .badge-icon {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--heart);
+    box-shadow: 0 0 8px var(--heartglow);
+    flex-shrink: 0;
+  }
+
+  /* ─── SESSIONS ─── */
+  #sessions {
+    background: linear-gradient(180deg, var(--navy) 0%, var(--deep) 100%);
+    position: relative;
+  }
+  #sessions::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+  }
+  .sessions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    margin-top: 60px;
+    max-width: 800px;
+  }
+  .session-card {
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px 36px;
+    background: var(--faint);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+  .session-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(74,108,247,0.4);
+    box-shadow: 0 20px 60px rgba(74,108,247,0.1);
+  }
+  .session-card.featured {
+    border-color: rgba(74,108,247,0.5);
+    background: linear-gradient(160deg, rgba(74,108,247,0.08), rgba(61,31,160,0.06));
+  }
+  .session-card.featured::after {
+    content: 'Most Popular';
+    position: absolute;
+    top: 20px; right: 20px;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--glow);
+    border: 1px solid rgba(74,108,247,0.3);
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(74,108,247,0.1);
+  }
+  .session-duration {
+    font-family: var(--r);
+    font-size: 3rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--text);
+  }
+  .session-unit { font-size: 1rem; color: var(--muted); margin-left: 4px; }
+  .session-name {
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .session-divider {
+    width: 40px; height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+  }
+  .session-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .session-features li {
+    font-size: 0.88rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .session-features li::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--heart);
+    flex-shrink: 0;
+  }
+  .session-cta {
+    margin-top: 32px;
+    display: inline-block;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--glow);
+    text-decoration: none;
+    border: 1px solid rgba(74,108,247,0.3);
+    padding: 12px 28px;
+    border-radius: 40px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .session-cta:hover { background: var(--glowsoft); border-color: var(--glow); }
+  .session-card.featured .session-cta {
+    background: linear-gradient(135deg, var(--glow), var(--purple));
+    border-color: transparent;
+    color: #fff;
+  }
+  .session-card.featured .session-cta:hover {
+    box-shadow: 0 8px 30px rgba(74,108,247,0.35);
+  }
+
+  /* ─── EMOTION CTA ─── */
+  #cta {
+    text-align: center;
+    padding: 120px 6vw;
+    position: relative;
+    overflow: hidden;
+  }
+  #cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(42,26,110,0.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-tagline {
+    font-family: var(--r);
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-style: italic;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 20px;
+  }
+  .cta-headline {
+    font-family: var(--r);
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.25;
+    max-width: 660px;
+    margin: 0 auto 48px;
+  }
+  .cta-headline em { font-style: italic; color: var(--heart); }
+  .cta-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .cta-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ─── CONTACT / FOOTER ─── */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid var(--border);
+    padding: 60px 6vw 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .footer-brand .logo { display: inline-block; margin-bottom: 16px; }
+  .footer-tagline { font-size: 0.88rem; color: var(--muted); line-height: 1.8; max-width: 300px; }
+  .footer-connect { }
+  .footer-connect h4 {
+    font-family: var(--r);
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+  .wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #128c7e, #075e54);
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    transition: all 0.3s;
+    box-shadow: 0 4px 24px rgba(18,140,126,0.25);
+  }
+  .wa-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(18,140,126,0.4);
+  }
+  .wa-icon {
+    width: 20px; height: 20px;
+  }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    margin-top: 40px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    grid-column: 1 / -1;
+  }
+  .footer-note {
+    font-size: 0.75rem;
+    color: rgba(136,146,176,0.6);
+    font-style: italic;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .problem-grid { grid-template-columns: 1fr; gap: 40px; }
+    .how-grid { grid-template-columns: 1fr; gap: 40px; }
+    .how-visual { display: none; }
+    footer { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo"><em>Rant</em> Buddy</a>
+  <a href="#sessions" class="btn-nav">Book a Call</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+  <p class="hero-eyebrow">A Safe Space to Vent</p>
+  <h1 class="hero-headline">You don't have to carry <em>everything</em> alone.</h1>
+  <p class="hero-sub">Talk freely. No judgment. No advice pressure. Just someone who truly listens.</p>
+  <div class="hero-cta">
+    <a href="#sessions" class="btn-primary">Start a Conversation</a>
+    <a href="#how" class="btn-ghost">See How It Works</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <p class="section-label reveal">The Weight You Carry</p>
+  <h2 class="section-title reveal reveal-delay-1">You're not <em>broken.</em><br>You're just carrying too much.</h2>
+  <div class="problem-grid">
+    <div class="problem-left reveal reveal-delay-2">
+      <p class="problem-intro">Most people today are overwhelmed — not because they're weak, but because they have no safe place to let it out. You keep it all in. And that silence is exhausting.</p>
+    </div>
+    <div class="pain-cards">
+      <div class="pain-card reveal reveal-delay-1">
+        <p class="pain-title">Constant Overthinking</p>
+        <p class="pain-desc">Your mind loops the same thoughts at 2am. You replay conversations, decisions, fears — endlessly.</p>
+      </div>
+      <div class="pain-card reveal reveal-delay-2">
+        <p class="pain-title">Can't Open Up</p>
+        <p class="pain-desc">Friends give unsolicited advice. Family judges. You don't want to be a burden. So you say "I'm fine."</p>
+      </div>
+      <div class="pain-card reveal reveal-delay-3">
+        <p class="pain-title">Bottled Emotions</p>
+        <p class="pain-desc">Unexpressed feelings don't disappear — they build up as stress, anxiety, sleepless nights.</p>
+      </div>
+      <div class="pain-card reveal reveal-delay-4">
+        <p class="pain-title">Just Want to Vent</p>
+        <p class="pain-desc">You don't want to be fixed. You just want someone to listen — without making it about them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <p class="section-label reveal">What We Offer</p>
+  <h2 class="section-title reveal reveal-delay-1" style="margin: 0 auto; text-align: center;">A space where you can simply <em>talk</em> — and be heard.</h2>
+  <p class="solution-quote reveal reveal-delay-2"><span></span>We don't solve your stress. We sit with you in it.<span></span></p>
+  <div class="solution-cards">
+    <div class="sol-card reveal reveal-delay-1">
+      <div class="sol-icon">🧠</div>
+      <h3>Human Listening</h3>
+      <p>Real people, real presence. Not AI responses or scripted replies — genuine human attention.</p>
+    </div>
+    <div class="sol-card reveal reveal-delay-2">
+      <div class="sol-icon">🔒</div>
+      <h3>Safe & Private</h3>
+      <p>Everything you say stays between you and your listener. No records, no pressure, no judgment.</p>
+    </div>
+    <div class="sol-card reveal reveal-delay-3">
+      <div class="sol-icon">💬</div>
+      <h3>No Advice</h3>
+      <p>We won't try to fix you. We'll just be there — listening, reflecting, and making you feel heard.</p>
+    </div>
+    <div class="sol-card reveal reveal-delay-4">
+      <div class="sol-icon">📞</div>
+      <h3>Simple Call Format</h3>
+      <p>WhatsApp or phone call. No apps to download, no complicated setup. Just press call and talk.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <p class="section-label reveal">The Process</p>
+  <h2 class="section-title reveal reveal-delay-1">Simple. Calm. <em>Effortless.</em></h2>
+  <div class="how-grid">
+    <div class="steps">
+      <div class="step reveal reveal-delay-1">
+        <div class="step-line">
+          <div class="step-num">1</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h3>Book a Slot</h3>
+          <p>Choose a time that works for you — morning, afternoon, or late evening. Flexible scheduling around your life.</p>
+        </div>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step-line">
+          <div class="step-num">2</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h3>Get on a Call</h3>
+          <p>A warm, empathetic listener connects with you on WhatsApp or phone — simple and familiar.</p>
+        </div>
+      </div>
+      <div class="step reveal reveal-delay-3">
+        <div class="step-line">
+          <div class="step-num">3</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h3>Talk Freely</h3>
+          <p>Say whatever is on your mind. There's no right or wrong way to rant. You set the pace and the direction.</p>
+        </div>
+      </div>
+      <div class="step reveal reveal-delay-4">
+        <div class="step-line">
+          <div class="step-num">4</div>
+          <div class="step-connector"></div>
+        </div>
+        <div class="step-content">
+          <h3>Feel Lighter</h3>
+          <p>Simply being heard is healing. After your session, notice the quiet — the mental load has shifted.</p>
+        </div>
+      </div>
+    </div>
+    <div class="how-visual reveal reveal-delay-2">
+      <div class="phone-mock">
+        <div class="phone-header">
+          <div class="phone-avatar">🫂</div>
+          <div>
+            <div class="phone-name">Rant Buddy Listener</div>
+            <div class="phone-status">● Online now</div>
+          </div>
+        </div>
+        <div class="chat-bubble">Hey, I'm here. Take your time — no rush at all. 💙</div>
+        <div class="chat-bubble right">I don't even know where to start... it's been such a tough week.</div>
+        <div class="chat-bubble">That's okay. Start anywhere. I'm not going anywhere.</div>
+        <div class="chat-bubble right">I just needed someone to actually listen.</div>
+        <div class="typing-indicator">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section id="trust">
+  <p class="section-label reveal">Why People Trust Us</p>
+  <h2 class="section-title reveal reveal-delay-1" style="margin: 0 auto; text-align: center;">No judgment. No pressure. <em>Just listening.</em></h2>
+  <div class="trust-badges reveal reveal-delay-2">
+    <div class="trust-badge"><div class="badge-icon"></div>100% Confidential</div>
+    <div class="trust-badge"><div class="badge-icon"></div>Non-judgmental Listeners</div>
+    <div class="trust-badge"><div class="badge-icon"></div>No Forced Advice</div>
+    <div class="trust-badge"><div class="badge-icon"></div>You Control the Session</div>
+    <div class="trust-badge"><div class="badge-icon"></div>Not Therapy, Just Listening</div>
+    <div class="trust-badge"><div class="badge-icon"></div>Empathetic & Warm</div>
+  </div>
+  <p style="font-size: 0.82rem; color: var(--muted); margin-top: 32px; font-style: italic;" class="reveal reveal-delay-3">Rant Buddy is not a substitute for professional therapy or clinical mental health services.</p>
+</section>
+
+<!-- SESSIONS -->
+<section id="sessions">
+  <p class="section-label reveal">Session Plans</p>
+  <h2 class="section-title reveal reveal-delay-1">Choose your <em>time</em> to breathe.</h2>
+  <div class="sessions-grid">
+    <div class="session-card reveal reveal-delay-2">
+      <div class="session-duration">30<span class="session-unit">min</span></div>
+      <div class="session-name">Quick Release</div>
+      <div class="session-divider"></div>
+      <ul class="session-features">
+        <li>One focused topic or feeling</li>
+        <li>Ideal for a quick debrief</li>
+        <li>WhatsApp or phone call</li>
+        <li>Flexible scheduling</li>
+      </ul>
+      <a href="#contact" class="session-cta">Book This</a>
+    </div>
+    <div class="session-card featured reveal reveal-delay-3">
+      <div class="session-duration">60<span class="session-unit">min</span></div>
+      <div class="session-name">Deep Vent</div>
+      <div class="session-divider"></div>
+      <ul class="session-features">
+        <li>Space to unpack everything</li>
+        <li>No rush, no interruptions</li>
+        <li>WhatsApp or phone call</li>
+        <li>Flexible timing</li>
+      </ul>
+      <a href="#contact" class="session-cta">Book This</a>
+    </div>
+  </div>
+</section>
+
+<!-- EMOTIONAL CTA -->
+<section id="cta">
+  <p class="cta-tagline reveal">You've been holding it in long enough.</p>
+  <h2 class="cta-headline reveal reveal-delay-1">Sometimes, all you need is someone who <em>listens.</em></h2>
+  <div class="cta-btn-wrap reveal reveal-delay-2">
+    <a href="#contact" class="btn-primary" style="font-size: 0.95rem; padding: 18px 48px;">Talk Now</a>
+    <p class="cta-sub">No sign-up. No forms. Just a call.</p>
+  </div>
+</section>
+
+<!-- FOOTER / CONTACT -->
+<footer id="contact">
+  <div class="footer-brand">
+    <a href="#" class="logo"><em>Rant</em> Buddy</a>
+    <p class="footer-tagline">A human-centered emotional support platform. Judgment-free listening sessions for people who need a safe space to vent — not advice, not therapy.</p>
+  </div>
+  <div class="footer-connect">
+    <h4>Connect with us</h4>
+    <a href="https://wa.me/919XXXXXXXXX" class="wa-btn">
+      <svg class="wa-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Chat on WhatsApp
+    </a>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Rant Buddy. All rights reserved.</span>
+    <span class="footer-note">Not a therapy service. Listeners are not licensed mental health professionals.</span>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
